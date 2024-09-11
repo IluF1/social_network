@@ -1,0 +1,34 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.authForm {
+    padding: 30px 40px 30px 40px;
+    background-color: var(--background);
+    width: 637px;
+    min-height: 800px;
+    border-radius: 24px;
+    display: inline-table;
+}
+.reset_data {
+    color: var(--foreground);
+    float: left;
+    margin-top: 30px;
+    text-decoration: underline;
+    font-size: 15px;
+}
+.enter_button {
+    margin-top: 50px;
+    width: 80% ;
+}
+
+.login_button {
+    margin-top: 20px;
+    width: 80%;
+}

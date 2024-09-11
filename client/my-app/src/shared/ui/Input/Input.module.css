@@ -1,0 +1,20 @@
+.customInput, .error {
+    background-color: transparent ;
+    border: 1px solid var(--foreground) ;
+    color: var(--foreground) ;
+    height: 59px ;
+    font-size: 20px ;
+    border-radius: 10px !important;
+    padding-left: 20px ;
+    width: 100%;
+}
+.customInput::placeholder {
+    font-weight: 500 ;
+    color: var(--foreground) ;
+    font-size: 20px ;
+}
+
+.error {
+    border: 1px solid rgb(230, 149, 149);
+    box-shadow: 5px 5px 30px rgb(254, 187, 187);
+}

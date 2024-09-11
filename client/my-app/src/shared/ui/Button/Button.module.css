@@ -1,0 +1,17 @@
+.button {
+  background-color: var(--foreground);
+  color: var(--background);
+  width: 320px;
+  height: 56px;
+  border-radius: 20px;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button:hover {
+  color: var(--foreground);
+  background-color: var(--background);
+}
