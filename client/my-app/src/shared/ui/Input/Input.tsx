@@ -1,5 +1,7 @@
-import { cn } from '@/shared'
-import type { ChangeEventHandler, ReactNode } from 'react'
+import hideImg from '@/app/assets/images/hide.png'
+import showImg from '@/app/assets/images/show.png'
+import { cn, useTheme } from '@/shared'
+import { type ChangeEventHandler, type ReactNode, useState } from 'react'
 import styles from './Input.module.css'
 
 interface Props {
@@ -21,14 +23,32 @@ export function CustomInput({
   error,
   required = false,
 }: Props) {
+  const [show, setShow] = useState<boolean>(false)
+  const { theme } = useTheme()
   return (
-    <input
-      placeholder={typeof children === 'string' ? children : ''}
-      value={value}
-      required={required}
-      onChange={onChange}
-      className={cn(error ? styles.error : styles.customInput, className)}
-      type={type}
-    />
+    <div>
+      <input
+        placeholder={typeof children === 'string' ? children : ''}
+        value={value}
+        required={required}
+        onChange={onChange}
+        className={cn(error ? styles.error : styles.customInput, className)}
+        type={show ? 'text' : type}
+      />
+      {type === 'password'
+        ? (
+            <button
+              type="button"
+              onClick={() => setShow(!show)}
+              className=" float-right -mt-10 mr-5"
+            >
+              <img
+                src={show ? showImg : hideImg}
+                className={theme === 'dark' ? styles.dark : styles.light}
+              />
+            </button>
+          )
+        : null}
+    </div>
   )
 }

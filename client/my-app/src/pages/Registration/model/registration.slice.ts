@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 interface IInitialState {
   login: string
   email: string
+  name: string
   password: string
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
@@ -12,6 +13,7 @@ interface IInitialState {
 interface IUser {
   login?: string
   email?: string
+  name?: string
   password: string
 }
 
@@ -21,14 +23,16 @@ const initialState: IInitialState = {
   password: '',
   status: 'idle',
   error: null,
+  name: '',
 }
 
 export const registrationApi = createAsyncThunk(
   'registration/registrationApi',
-  async ({ login, email, password }: IUser, { rejectWithValue }) => {
+  async ({ login, email, password, name }: IUser, { rejectWithValue }) => {
     try {
       const response = await instance.post('/registration', {
         login,
+        name,
         email,
         password,
       })
@@ -36,7 +40,7 @@ export const registrationApi = createAsyncThunk(
     }
     catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.error || 'Something went wrong',
+        error?.response?.data?.error || 'Что-то пошло не так',
       )
     }
   },
@@ -58,6 +62,10 @@ export const registrationSlice = createSlice({
       })
       .addCase(registrationApi.fulfilled, (state) => {
         state.status = 'succeeded'
+      })
+      .addCase(registrationApi.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.payload as string
       })
   },
 })

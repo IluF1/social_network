@@ -18,7 +18,7 @@ export function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
   const [auth, setAuth] = useState<boolean>(false)
-  const { email, emailChangeHandler, emailError, blocked, login }
+  const { email, emailChangeHandler, emailError, blocked, login, loginChangeHandler }
     = useValidation()
   const dispatch = useAppDispatch()
   const { error } = useAppSelector(state => state.auth)
@@ -27,15 +27,16 @@ export function Auth() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    if (isLogin) {
-      await dispatch(authApi({ password, login, endpoint: '/auth' }))
+    try {
+      if (isLogin) {
+        await dispatch(authApi({ password, login })).unwrap()
+      }
+      else {
+        await dispatch(authApi({ password, email })).unwrap()
+      }
     }
-    else {
-      await dispatch(authApi({ password, email, endpoint: '/auth' }))
-    }
-
-    if (error) {
-      toast.error(error)
+    catch (error) {
+      toast.error(error.message || 'Ошибка аутентификации')
     }
   }
 
@@ -55,13 +56,14 @@ export function Auth() {
         className="absolute w-72"
       />
       <div className={styles.authForm}>
-        <BackButton
-          className={styles.backButton}
-          backEvent={() => setAuth(false)}
-        />
+        <div className="flex justify-between items-center p-4">
+          <BackButton
+            backEvent={() => setAuth(false)}
+          />
+        </div>
         <div className="mt-20 text-center">
           <Title tag="h1">
-            {auth ? 'Вам на почту пришел код' : 'Войдите в свой аккаунт'}
+            {auth ? "Вам на почту пришел код" : "Войдите в свой аккаунт"}
           </Title>
 
           {auth ? (
@@ -70,7 +72,11 @@ export function Auth() {
             <form className="mt-28" onSubmit={handleSubmit}>
               {isLogin ? (
                 <div>
-                  <CustomInput children="Ваш логин" />
+                  <CustomInput
+                    children="Ваш логин"
+                    value={login}
+                    onChange={loginChangeHandler}
+                  />
                 </div>
               ) : (
                 <div>
@@ -90,7 +96,7 @@ export function Auth() {
                 className="mt-12"
                 type="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
               {error && <div className="text-lightRed mt-2">{error}</div>}
@@ -109,12 +115,15 @@ export function Auth() {
                 className={styles.login_button}
                 onClick={() => setIsLogin(!isLogin)}
               >
-                {isLogin ? 'Войти через почту' : 'Войти через логин'}
+                {isLogin ? "Войти через почту" : "Войти через логин"}
               </CustomButton>
               <GoogleButton />
               <Title tag="h4" className="mt-12">
                 У вас нет аккаунта?
-                <a href="/registration" className=" border-b-1 border-foreground">
+                <a
+                  href="/registration"
+                  className=" border-b-1 border-foreground"
+                >
                   ЗАРЕГИСТРИРОВАТЬСЯ
                 </a>
               </Title>
@@ -123,5 +132,5 @@ export function Auth() {
         </div>
       </div>
     </div>
-  )
+  );
 }

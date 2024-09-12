@@ -7,6 +7,7 @@
     border-radius: 10px !important;
     padding-left: 20px ;
     width: 100%;
+    padding-right: 80px;
 }
 .customInput::placeholder {
     font-weight: 500 ;
@@ -17,4 +18,12 @@
 .error {
     border: 1px solid rgb(230, 149, 149);
     box-shadow: 5px 5px 30px rgb(254, 187, 187);
+}
+
+.dark, .light {
+    width: 25px;
+    height: 25px;
+}
+.dark {
+    filter: invert(1);
 }

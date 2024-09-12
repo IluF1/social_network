@@ -1,14 +1,13 @@
-/* eslint-disable style/multiline-ternary */
 import { CustomButton, CustomInput, Title, useTheme } from '@/shared'
 
 import { useAppDispatch } from '@/shared/Helpers/Hooks/useAppDispatch'
 import { useValidation } from '@/shared/Helpers/Hooks/useValidation'
 import { BackButton } from '@/shared/ui/backButton'
 import { GoogleButton } from '@/shared/ui/GoogleButton/GoogleButton'
-import { Otp } from '@/shared/ui/OTP/OTP'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
+
 import { registrationApi } from './model/registration.slice'
 import styles from './Registration.module.css'
 import 'react-toastify/dist/ReactToastify.css'
@@ -29,11 +28,23 @@ export function Registration() {
   } = useValidation()
   const { theme } = useTheme()
   const dispatch = useAppDispatch()
+  const [name, setName] = useState<string>('')
+  const notify = (message: string) => {
+    toast.error(message)
+  }
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-
-    dispatch(registrationApi({ login, email, password }))
+    try {
+      await dispatch(
+        registrationApi({ login, email, password, name }),
+      ).unwrap()
+      navigate('/welcome')
+    }
+    catch (error) {
+      notify(`Ошибка регистрации: ${error || 'Неизвестная ошибка'}`)
+      console.error('Registration failed:', error)
+    }
   }
 
   return (
@@ -66,7 +77,7 @@ export function Registration() {
             className=" mt-10"
             onSubmit={(event: React.FormEvent) => onSubmit(event)}
           >
-            <CustomInput children="Ваше имя" className="mt-8" required />
+            <CustomInput children="Ваше имя" className="mt-8" required value={name} onChange={e => setName(e.target.value)} />
             <CustomInput
               children="Ваша логин"
               className="mt-8"

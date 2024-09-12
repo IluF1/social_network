@@ -16,18 +16,17 @@ export function useValidation() {
     }
     else {
       setPasswordError('')
-      setBlocked(false)
+      setBlocked(emailError !== '' || loginError !== '') // проверка всех ошибок
     }
   }
 
   const validateEmail = (email: string) => {
     const re
-      // eslint-disable-next-line regexp/no-unused-capturing-group
-      = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(?:[a-z\-0-9]+\.)+[a-z]{2,})$/i
+      = /^(([^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|.".+")@(\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\]|(?:[a-z\-0-9]+\.)+[a-z]{2,})$/i
 
     if (re.test(String(email).toLowerCase())) {
       setEmailError('')
-      setBlocked(false)
+      setBlocked(passwordError !== '' || loginError !== '') // проверка всех ошибок
     }
     else {
       setEmailError('Некорректная почта!')
@@ -36,24 +35,29 @@ export function useValidation() {
   }
 
   const validateLogin = (login: string) => {
+    let error = ''
+
     if (login.length <= 5) {
-      setLoginError('Ваш логин должен содержать не менее 5 символов')
-    }
-    else {
-      setLoginError('')
+      error = 'Ваш логин должен содержать не менее 5 символов'
     }
 
     if (/^\d/.test(login)) {
-      setLoginError('Ваш логин не должен начинаться с цифры')
+      error = 'Ваш логин не должен начинаться с цифры'
+    }
+
+    setLoginError(error)
+
+    if (error === '') {
+      setBlocked(passwordError !== '' || emailError !== '') // проверка всех ошибок
     }
     else {
-      setLoginError('')
+      setBlocked(true)
     }
   }
+
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEmail(value)
-
     validateEmail(value)
   }
 

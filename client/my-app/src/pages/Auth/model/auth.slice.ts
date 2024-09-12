@@ -7,14 +7,12 @@ interface IInitialState {
   password: string
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
-  endpoint?: string
 }
 
 interface IUser {
   login?: string
   email?: string
   password: string
-  endpoint: string
 }
 
 const initialState: IInitialState = {
@@ -23,23 +21,22 @@ const initialState: IInitialState = {
   password: '',
   status: 'idle',
   error: null,
-  endpoint: '',
 }
 
 export const authApi = createAsyncThunk(
   'auth/authApi',
-  async ({ login, email, password, endpoint }: IUser, { rejectWithValue }) => {
+  async ({ login, email, password }: IUser, { rejectWithValue }) => {
     try {
-      const response = await instance.post(endpoint, {
-        login,
-        email,
+      const response = await instance.post('/auth', {
+        login: login || undefined,
+        email: email || undefined,
         password,
       })
       return response.data
     }
     catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.error || 'Something went wrong',
+        error?.response?.data?.message || 'Something went wrong',
       )
     }
   },

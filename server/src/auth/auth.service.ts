@@ -2,7 +2,6 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -10,18 +9,25 @@ import { AuthDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
-  authUserByEmail(body: AuthDto) {
-    throw new Error('Method not implemented.');
-  }
-  authUserByLogin(body: AuthDto) {
-    throw new Error('Method not implemented.');
-  }
-
   constructor(private prisma: PrismaService) {}
+
+  private async findUser(user: AuthDto) {
+    if (user.login) {
+      return await this.prisma.user.findUnique({
+        where: { login: user.login },
+      });
+    }
+
+    return await this.prisma.user.findUnique({ where: { email: user.email } });
+  }
 
   private async authenticateUser(findUser, password: string) {
     if (!findUser) {
       throw new NotFoundException('Такого пользователя не существует');
+    }
+
+    if (!password) {
+      throw new UnauthorizedException('Пароль не указан');
     }
 
     const isPasswordValid = await bcrypt.compare(password, findUser.password);
@@ -33,15 +39,26 @@ export class AuthService {
   }
 
   async authUser(user: AuthDto) {
-    const findUser = user.login
-      ? await this.prisma.user.findUnique({ where: { login: user.login } })
-      : await this.prisma.user.findUnique({ where: { email: user.email } });
+    if (!user.login && !user.email) {
+      throw new UnauthorizedException('Необходимо указать логин или почту');
+    }
+
+    const findUser = await this.findUser(user);
+
+    if (!findUser) {
+      throw new NotFoundException('Такого пользователя не существует');
+    }
 
     const authenticatedUser = await this.authenticateUser(
       findUser,
       user.password,
     );
 
-    return { message: 'Аутентификация успешна', user: authenticatedUser };
+    const { password, ...userWithoutPassword } = authenticatedUser;
+
+    return {
+      message: 'Аутентификация успешна',
+      user: userWithoutPassword,
+    };
   }
 }

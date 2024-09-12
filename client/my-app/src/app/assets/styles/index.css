@@ -4,15 +4,15 @@
 
 @layer base {
   :root {
-    --background: #ffffff; 
-    --foreground: hsl(0, 0%, 0%); 
+    --background: #ffffffe2;
+    --foreground: hsl(0, 0%, 0%);
     --card: hsl(0, 0%, 100%);
-    --card-foreground: hsl(0, 0%, 10%); 
+    --card-foreground: hsl(0, 0%, 10%);
     --popover: hsl(0, 0%, 100%);
     --popover-foreground: hsl(0, 0%, 10%);
-    --primary: hsl(0, 0%, 15%); 
+    --primary: hsl(0, 0%, 15%);
     --primary-foreground: hsl(0, 0%, 95%);
-    --secondary: hsl(0, 0%, 90%); 
+    --secondary: hsl(0, 0%, 90%);
     --secondary-foreground: hsl(0, 0%, 10%);
     --muted: hsl(0, 0%, 90%);
     --muted-foreground: hsl(0, 0%, 50%);
@@ -29,19 +29,19 @@
     --chart-4: hsl(43, 74%, 66%);
     --chart-5: hsl(27, 87%, 67%);
     --radius: 0.5rem;
-     --main: rgb(255, 255, 255);
+    --main: rgb(255, 255, 255);
   }
 
   .dark {
-    --background: #000000; 
-    --foreground: #ffffff; 
-    --card: hsl(0, 0%, 10%); 
+    --background: #000000e2;
+    --foreground: #ffffff;
+    --card: hsl(0, 0%, 10%);
     --card-foreground: hsl(0, 0%, 95%);
     --popover: hsl(0, 0%, 10%);
     --popover-foreground: hsl(0, 0%, 95%);
     --primary: hsl(0, 0%, 95%);
     --primary-foreground: hsl(0, 0%, 10%);
-    --secondary: hsl(0, 0%, 20%); 
+    --secondary: hsl(0, 0%, 20%);
     --secondary-foreground: hsl(0, 0%, 95%);
     --muted: hsl(0, 0%, 20%);
     --muted-foreground: hsl(0, 0%, 70%);
@@ -58,20 +58,21 @@
     --chart-4: hsl(280, 65%, 60%);
     --chart-5: hsl(340, 75%, 55%);
     --main: rgb(26, 26, 26);
-   }
+  }
 }
 
 @layer base {
-   * {
-      @apply border-border;
-      font-family: "Montserrat", sans-serif;
-   }
-   body {
-      @apply bg-background text-foreground;
-      background-color: var(--main);
-   }
+  * {
+    @apply border-border;
+    font-family: "Inter", sans-serif;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: var(--main) url("../images/background.svg") no-repeat fixed;
+    background-size: cover;
+  }
 
-   button {
-      cursor: pointer;
-   }
+  button {
+    cursor: pointer;
+  }
 }
