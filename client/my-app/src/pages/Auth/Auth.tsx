@@ -13,6 +13,7 @@ import type { FormEvent } from 'react'
 import styles from './Auth.module.css'
 import { authApi } from './model/auth.slice'
 import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from 'react-router-dom'
 
 export function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(false)
@@ -23,6 +24,7 @@ export function Auth() {
   const dispatch = useAppDispatch()
   const { error } = useAppSelector(state => state.auth)
   const { theme } = useTheme()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -34,6 +36,8 @@ export function Auth() {
       else {
         await dispatch(authApi({ password, email })).unwrap()
       }
+      toast.success('Вы успешно зашли в аккаунт')
+      navigate('/')
     }
     catch (error) {
       toast.error(error.message || 'Ошибка аутентификации')
@@ -58,7 +62,7 @@ export function Auth() {
       <div className={styles.authForm}>
         <div className="flex justify-between items-center p-4">
           <BackButton
-            backEvent={() => setAuth(false)}
+            backEvent={() => navigate('/')}
           />
         </div>
         <div className="mt-20 text-center">
@@ -106,7 +110,7 @@ export function Auth() {
               <CustomButton
                 className={styles.enter_button}
                 type="submit"
-                disable={blocked}
+                disabled={blocked}
               >
                 Войти
               </CustomButton>

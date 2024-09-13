@@ -16,4 +16,7 @@ export const Router = createBrowserRouter([
     path: '/registration',
     element: <Registration />,
   },
+  {
+    path: '/:login'
+  }
 ])

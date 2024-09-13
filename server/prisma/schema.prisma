@@ -8,12 +8,36 @@ datasource db {
 }
 
 model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String?
+  login        String   @unique
+  password     String
+  avatar       String?  @default("https://i.pinimg.com/564x/36/72/fa/3672fae383c1cbabe5bf4408c9e4ef2b.jpg")
+  refreshToken String
+  createdAt    DateTime @default(now())
+
+  Post Post[]
+
+  Like Likes[]
+}
+
+model Post {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String? 
-  login     String   @unique
-  password  String
-  avatar    String?
+  title     String
+  content   String
+  image     String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+
+  Like Likes[]
+}
+model Likes {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }

@@ -22,14 +22,19 @@ export const ModeToggle = memo(({ className }: Props) => {
             variant="link"
             size="icon"
             onClick={() =>
-              theme === 'dark' ? setTheme('light') : setTheme('dark')}
+              theme === "dark" ? setTheme("light") : setTheme("dark")
+            }
           >
-            <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-white" />
-            <Sun className="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-black" />
+            <Moon
+              className="absolute h-8 w-8 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-foreground"
+            />
+            <Sun
+              className="h-8 w-8 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-foreground"
+            />
             <span className="sr-only">Toggle theme</span>
           </Button>
         </DropdownMenuTrigger>
       </DropdownMenu>
     </div>
-  )
+  );
 })

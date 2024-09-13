@@ -3,20 +3,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { RegistrationDto } from './dto/registration.dto';
 
-
 @Injectable()
 export class RegistrationService {
-  constructor(
-    private prisma: PrismaService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async registration(userDto: RegistrationDto) {
     const existingUser = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          { email: userDto.email },
-          { login: userDto.login },
-        ],
+        OR: [{ email: userDto.email }, { login: userDto.login }],
       },
     });
 
@@ -36,6 +30,8 @@ export class RegistrationService {
         email: userDto.email,
         name: userDto.name,
         password: hashPassword,
+        avatar:
+          'https://i.pinimg.com/564x/36/72/fa/3672fae383c1cbabe5bf4408c9e4ef2b.jpg',
       },
     });
 
@@ -48,6 +44,4 @@ export class RegistrationService {
       },
     };
   }
-  
-
 }

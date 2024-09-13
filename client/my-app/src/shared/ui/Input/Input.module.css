@@ -1,5 +1,5 @@
 .customInput, .error {
-    background-color: transparent ;
+    background-color: var(--background) ;
     border: 1px solid var(--foreground) ;
     color: var(--foreground) ;
     height: 59px ;

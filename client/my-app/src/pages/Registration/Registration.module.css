@@ -1,5 +1,4 @@
 .container {
-    width: 100vw;
     height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
@@ -16,6 +15,7 @@
     height: auto;
     display: inline-table;
     transition: 0.3s ease-in-out;
+    border: 1px solid var(--border);
 }
 
 .registration_button {

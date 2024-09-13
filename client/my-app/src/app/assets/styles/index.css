@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: #ffffffe2;
+    --background: #e6e6e6ea;
     --foreground: hsl(0, 0%, 0%);
     --card: hsl(0, 0%, 100%);
     --card-foreground: hsl(0, 0%, 10%);
@@ -20,7 +20,7 @@
     --accent-foreground: hsl(0, 0%, 10%);
     --destructive: hsl(0, 70%, 50%);
     --destructive-foreground: hsl(0, 0%, 95%);
-    --border: hsl(0, 0%, 85%);
+    --border: hsl(0, 0%, 0%);
     --input: hsl(0, 0%, 85%);
     --ring: hsl(0, 0%, 5%);
     --chart-1: hsl(12, 76%, 61%);
@@ -30,10 +30,11 @@
     --chart-5: hsl(27, 87%, 67%);
     --radius: 0.5rem;
     --main: rgb(255, 255, 255);
+    --image: url("../images/backgroundWhite.png")
   }
 
   .dark {
-    --background: #000000e2;
+    --background: #151515ec;
     --foreground: #ffffff;
     --card: hsl(0, 0%, 10%);
     --card-foreground: hsl(0, 0%, 95%);
@@ -49,7 +50,7 @@
     --accent-foreground: hsl(0, 0%, 95%);
     --destructive: hsl(0, 60%, 40%);
     --destructive-foreground: hsl(0, 0%, 95%);
-    --border: hsl(0, 0%, 20%);
+    --border: hsl(0, 0%, 76%);
     --input: hsl(0, 0%, 20%);
     --ring: hsl(0, 0%, 80%);
     --chart-1: hsl(220, 70%, 50%);
@@ -58,18 +59,23 @@
     --chart-4: hsl(280, 65%, 60%);
     --chart-5: hsl(340, 75%, 55%);
     --main: rgb(26, 26, 26);
+    --image: url("../images/backgroundBlack.jpg")
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    font-family: "Inter", sans-serif;
+   font-family: "JetBrains Mono", monospace;
   }
   body {
     @apply bg-background text-foreground;
-    background: var(--main) url("../images/background.svg") no-repeat fixed;
+    background: var(--image) no-repeat fixed;
     background-size: cover;
+    padding: 0 60px 20px 60px;
+    width: 2000px;
+    display: block;
+    margin: auto;
   }
 
   button {
