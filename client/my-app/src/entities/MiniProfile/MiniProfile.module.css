@@ -5,7 +5,7 @@
     border-radius: 40px;
     padding: 10px 2px 0 10px;
     display: flex;
-    color: var(--foreground);
+    color: white;
 }
 
 .avatar {
@@ -18,5 +18,5 @@
     font-size: 25px;
     margin-left: 15px;
     margin-top: 10px;
-    color: var(--foreground);
+    color: white
 }

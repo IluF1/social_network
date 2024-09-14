@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  name         String?
-  login        String   @unique
-  password     String
-  avatar       String?  @default("https://i.pinimg.com/564x/36/72/fa/3672fae383c1cbabe5bf4408c9e4ef2b.jpg")
-  refreshToken String
-  createdAt    DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  login     String   @unique
+  password  String
+  avatar    String?  @default("https://i.pinimg.com/564x/36/72/fa/3672fae383c1cbabe5bf4408c9e4ef2b.jpg")
+  createdAt DateTime @default(now())
+  role      String   @default("user")
 
   Post Post[]
-
   Like Likes[]
+
+  sessions Session[]
 }
 
 model Post {
@@ -33,6 +34,7 @@ model Post {
 
   Like Likes[]
 }
+
 model Likes {
   id        Int      @id @default(autoincrement())
   postId    Int
@@ -40,4 +42,14 @@ model Likes {
   createdAt DateTime @default(now())
   post      Post     @relation(fields: [postId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  sessionToken String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  expiresAt    DateTime
+  user         User     @relation(fields: [userId], references: [id])
 }

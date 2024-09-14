@@ -19,8 +19,7 @@ const initialState: IInitialState = {
   user: {
     name: "",
     password: "",
-    avatar:
-      "  https://i.pinimg.com/564x/36/72/fa/3672fae383c1cbabe5bf4408c9e4ef2b.jpg",
+    avatar: '',
     login: "",
     email: "",
   },
@@ -28,20 +27,19 @@ const initialState: IInitialState = {
   error: null,
 };
 
-interface IGetUserByRefreshArgs {
-  refreshToken: string;
+interface IGetUserBySessionToken {
+  session: string;
 }
 
-export const getUserByRefresh = createAsyncThunk<IUser, IGetUserByRefreshArgs>(
-  "user/getUserByRefresh",
-  async ({ refreshToken }, { rejectWithValue }) => {
+export const getUserBySessionToken = createAsyncThunk<IUser, IGetUserBySessionToken>(
+  "user/getUserBySessionToken",
+  async ({ session }, { rejectWithValue }) => {
     try {
-      const response = await instance.post("/user/refreshToken", {
-        refresh_token: refreshToken,
+      const response = await instance.post("/user/session", {
+        sessionToken: session,
       });
       return response.data;
     } catch (error) {
-      // Убедитесь, что error имеет правильную структуру
       const message =
         (error as any)?.response?.data?.message || "Что-то пошло не так";
       return rejectWithValue(message);
@@ -59,21 +57,20 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserByRefresh.pending, (state) => {
+      .addCase(getUserBySessionToken.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getUserByRefresh.fulfilled, (state, action) => {
+      .addCase(getUserBySessionToken.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.user = action.payload;
-        state.error = null; // Сбрасываем ошибку при успешном выполнении
+        state.error = null;
       })
-      .addCase(getUserByRefresh.rejected, (state, action) => {
+      .addCase(getUserBySessionToken.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload as string; // Сохраняем сообщение об ошибке
+        state.error = action.payload as string;
       });
   },
 });
 
-// Экспортируем действия и редьюсер
 export const { clearError } = userSlice.actions;
 export default userSlice.reducer;

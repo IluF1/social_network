@@ -1,29 +1,23 @@
-import { CustomButton, CustomInput, ModeToggle, Title } from "@/shared";
+import { CustomButton, CustomInput, Title } from "@/shared";
 import styles from "./Header.module.css";
 import logo from "@/app/assets/images/logo.jpg";
-import { useEffect, useState } from "react";
-import { useAppSelector } from "@/shared/Helpers/Hooks/useAppSelector";
+import { Bell, Settings } from "lucide-react";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 import { useAppDispatch } from "@/shared/Helpers/Hooks/useAppDispatch";
-import { getUserByRefresh } from "./model/user.slice";
-import { Bell, ChevronUp, Divide, Settings } from "lucide-react";
-import { ChevronDown } from "lucide-react";
+import { getUserBySessionToken } from "./model/user.slice";
 
 export const Header = () => {
   const hideHeader =
     window.location.pathname === "/auth" ||
     window.location.pathname === "/registration";
 
-  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
-  const refreshToken = localStorage.getItem("refreshToken");
+  const token = Cookies.get("sessionToken") || "";
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.user);
-  const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
-    if (refreshToken) {
-      dispatch(getUserByRefresh({ refreshToken }));
-    }
-  }, [refreshToken, dispatch]);
+    dispatch(getUserBySessionToken({ session: token }));
+  }, [dispatch, token]);
 
   return (
     <>
@@ -38,14 +32,13 @@ export const Header = () => {
             </a>
             <CustomInput children="Поиск" className={styles.searchInput} />
           </div>
-          {isAuthenticated ? (
+          {token ? (
             <div className={styles.authUser}>
               <button className=" mr-6">
                 <Bell width={30} height={30} className=" text-foreground" />
               </button>
-              <ModeToggle className=" mr-6" />
               <a href="/settings">
-                <Settings width={30} height={30} className=" text-foreground" />
+                <Settings />
               </a>
             </div>
           ) : (

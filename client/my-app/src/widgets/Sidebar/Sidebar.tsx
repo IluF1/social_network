@@ -1,36 +1,46 @@
 import { useEffect, useState } from "react";
 import styles from "./Sidebar.module.css";
 import { NavElement } from "@/shared/ui/NavElement/NavElement";
-import { AlertCircle, BotIcon, Contact, Home, MessageCircle, Newspaper } from "lucide-react";
-import { ResumeIcon } from "@radix-ui/react-icons";
+import {
+  AlertCircle,
+  BotIcon,
+  Contact,
+  Home,
+  MessageCircle,
+  Newspaper,
+} from "lucide-react";
+import { ExitIcon, ResumeIcon } from "@radix-ui/react-icons";
 import { MiniProfile } from "@/entities/MiniProfile/MiniProfile";
+import { useAppSelector } from "@/shared/Helpers/Hooks/useAppSelector";
+import axios from "axios";
+import { instance } from "@/shared";
+import Cookies from "js-cookie";
 
 export const Sidebar = () => {
-  const [hideSidebar, setHideSidebar] = useState(
-    window.location.pathname === "/auth" ||
-      window.location.pathname === "/registration"
-  );
+  const user = useAppSelector((state) => state.user.user);
 
-  useEffect(() => {
-    const handleLocationChange = () => {
-      setHideSidebar(
-        window.location.pathname === "/auth" ||
-          window.location.pathname === "/registration"
-      );
-    };
+  const token = Cookies.get("sessionToken");
+  
+  const logout = async () => {
+    try {
+       await instance.post("/user/logout", { sessionToken: token });
 
-    window.addEventListener("popstate", handleLocationChange);
+      Cookies.remove("sessionToken");
 
-    return () => {
-      window.removeEventListener("popstate", handleLocationChange);
-    };
-  }, []);
+      window.location.reload();
+    } catch (error) {
+      console.error("Ошибка при выходе:", error);
+    }
+  };
 
   return (
     <aside>
-      {!hideSidebar && (
         <div className={styles.container}>
-          <MiniProfile />
+          <MiniProfile
+            name={user.name}
+            login={user.login}
+            avatar={user.avatar}
+          />
           <NavElement
             children="Главная"
             link="/"
@@ -73,8 +83,10 @@ export const Sidebar = () => {
             icon={<AlertCircle />}
             className=" text-xl mt-4"
           />
+          <button onClick={() => logout()}>
+            <ExitIcon width={30} height={30} className=" mt-96" />
+          </button>
         </div>
-      )}
     </aside>
   );
 };

@@ -18,5 +18,5 @@ export const Router = createBrowserRouter([
   },
   {
     path: '/:login'
-  }
+  },
 ])

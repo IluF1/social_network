@@ -1,5 +1,7 @@
 import { instance } from "@/shared";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+
 interface IUser {
   name?: string;
   avatar?: string;
@@ -12,8 +14,6 @@ interface IInitialState {
   user: IUser;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
-  accessToken: string | null;
-  refreshToken: string | null;
 }
 
 const initialState: IInitialState = {
@@ -26,9 +26,8 @@ const initialState: IInitialState = {
   },
   status: "idle",
   error: null,
-  accessToken: null,
-  refreshToken: null,
 };
+
 
 export const authApi = createAsyncThunk(
   "auth/authApi",
@@ -39,30 +38,18 @@ export const authApi = createAsyncThunk(
         email: email || undefined,
         password,
       });
+     if (response.data.sessionToken) {
+       Cookies.set("sessionToken", response.data.sessionToken, { expires: 7 });
+     }
       return response.data;
     } catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.message || "Something went wrong"
+        error?.response?.data?.message || "Что-то пошло не так"
       );
     }
   }
 );
 
-export const refreshTokenApi = createAsyncThunk(
-  "auth/refreshTokenApi",
-  async (refreshToken: string, { rejectWithValue }) => {
-    try {
-      const response = await instance.post("/login/refresh", {
-        refresh_token: refreshToken,
-      });
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error?.response?.data?.message || "Something went wrong"
-      );
-    }
-  }
-);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -70,6 +57,9 @@ export const authSlice = createSlice({
   reducers: {
     clearError: (state) => {
       state.error = null;
+    },
+    logout: (state) => {
+      state.user = initialState.user;
     },
   },
   extraReducers: (builder) => {
@@ -80,28 +70,16 @@ export const authSlice = createSlice({
       })
       .addCase(authApi.fulfilled, (state, action) => {
         state.status = "succeeded";
-        localStorage.setItem("accessToken", action.payload.access_token);
-        localStorage.setItem("refreshToken", action.payload.refresh_token);
-        state.user = action.payload;
+        const { user } = action.payload;
+        state.user = user;
       })
       .addCase(authApi.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
       })
-      .addCase(refreshTokenApi.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(refreshTokenApi.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        localStorage.setItem("accessToken", action.payload.access_token);
-      })
-      .addCase(refreshTokenApi.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload as string;
-      });
   },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, logout } = authSlice.actions;
 
 export default authSlice.reducer;

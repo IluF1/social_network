@@ -1,4 +1,4 @@
-import { CustomButton, CustomInput, Title, useTheme } from "@/shared";
+import { CustomButton, CustomInput, Title } from "@/shared";
 
 import { useAppDispatch } from "@/shared/Helpers/Hooks/useAppDispatch";
 import { useValidation } from "@/shared/Helpers/Hooks/useValidation";
@@ -27,7 +27,6 @@ export function Registration() {
     login,
     loginError,
   } = useValidation();
-  const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
   const notify = (message: string) => {
@@ -61,7 +60,7 @@ export function Registration() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme={theme}
+        theme={"dark"}
         className="absolute w-72"
       />
       <div className={styles.registrationForm}>

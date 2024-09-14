@@ -3,26 +3,23 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { UserDto } from './dto/user.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private prisma: PrismaService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   private async findUser(user: UserDto) {
     if (user.login) {
-      return await this.prisma.user.findUnique({
+      return this.prisma.user.findUnique({
         where: { login: user.login },
       });
     }
 
-    return await this.prisma.user.findUnique({ where: { email: user.email } });
+    return this.prisma.user.findUnique({ where: { email: user.email } });
   }
 
   private async authenticateUser(findUser, password: string) {
@@ -38,82 +35,47 @@ export class AuthService {
     return findUser;
   }
 
-  async authUser(user: UserDto) {
-    if (!user.login && !user.email) {
-      throw new UnauthorizedException('Необходимо указать логин или почту');
-    }
+  async createSession(userId: number) {
+    const sessionToken = uuidv4();
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
 
+    return this.prisma.session.create({
+      data: {
+        userId,
+        sessionToken,
+        expiresAt,
+      },
+    });
+  }
+
+  async authUser(user: UserDto, session: any) {
     const findUser = await this.findUser(user);
     const authenticatedUser = await this.authenticateUser(
       findUser,
       user.password,
     );
-
-    const { password, ...userWithoutPassword } = authenticatedUser;
-
-    const accessToken = this.jwtService.sign(
-      { sub: authenticatedUser.id },
-      { expiresIn: '15m' },
-    );
-    const refreshToken = this.jwtService.sign(
-      { sub: authenticatedUser.id },
-      { expiresIn: '7d' },
-    );
-
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    await this.prisma.user.update({
-      where: { id: authenticatedUser.id },
-      data: { refreshToken: hashedRefreshToken },
+    const existingSession = await this.prisma.session.findFirst({
+      where: { userId: authenticatedUser.id },
     });
+
+    if (existingSession) {
+      await this.prisma.session.update({
+        where: { id: existingSession.id },
+        data: { updatedAt: new Date() },
+      });
+
+      session.sessionToken = existingSession.sessionToken;
+    } else {
+      const newSession = await this.createSession(authenticatedUser.id);
+      session.sessionToken = newSession.sessionToken;
+    }
 
     return {
       message: 'Аутентификация успешна',
-      user: userWithoutPassword,
-      access_token: accessToken,
-      refresh_token: refreshToken,
+      user: authenticatedUser,
+      sessionToken: session.sessionToken,
     };
   }
 
-  async refreshToken(refreshToken: string) {
-    try {
-      const payload = this.jwtService.verify(refreshToken);
-      const user = await this.prisma.user.findUnique({
-        where: { id: payload.sub },
-      });
 
-      if (!user) {
-        throw new UnauthorizedException('Пользователь не найден');
-      }
-
-      const isRefreshTokenValid = await bcrypt.compare(
-        refreshToken,
-        user.refreshToken,
-      );
-      if (!isRefreshTokenValid) {
-        throw new UnauthorizedException('Неверный refresh token');
-      }
-      const newAccessToken = this.jwtService.sign(
-        { sub: user.id },
-        { expiresIn: '15m' },
-      );
-
-      const newRefreshToken = this.jwtService.sign(
-        { sub: user.id },
-        { expiresIn: '7d' },
-      );
-      const hashedNewRefreshToken = await bcrypt.hash(newRefreshToken, 10);
-      await this.prisma.user.update({
-        where: { id: user.id },
-        data: { refreshToken: hashedNewRefreshToken },
-      });
-
-      return {
-        access_token: newAccessToken,
-        refresh_token: newRefreshToken, 
-      };
-    } catch (error) {
-      console.error('Ошибка при обновлении токена:', error.message);
-      throw new UnauthorizedException('Неверный refresh token');
-    }
-  }
 }

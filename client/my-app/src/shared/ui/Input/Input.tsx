@@ -1,6 +1,6 @@
 import hideImg from '@/app/assets/images/hide.png'
 import showImg from '@/app/assets/images/show.png'
-import { cn, useTheme } from '@/shared'
+import { cn } from '@/shared'
 import { type ChangeEventHandler, type ReactNode, useState } from 'react'
 import styles from './Input.module.css'
 
@@ -24,7 +24,6 @@ export function CustomInput({
   required = false,
 }: Props) {
   const [show, setShow] = useState<boolean>(false)
-  const { theme } = useTheme()
   return (
     <div>
       <input
@@ -44,7 +43,7 @@ export function CustomInput({
             >
               <img
                 src={show ? showImg : hideImg}
-                className={theme === 'dark' ? styles.dark : styles.light}
+                className={styles.dark}
               />
             </button>
           )

@@ -1,17 +1,17 @@
 /* eslint-disable style/multiline-ternary */
-import { CustomButton, CustomInput, Title, useTheme } from '@/shared'
+import { CustomButton, CustomInput, Title } from '@/shared'
 import { useAppDispatch } from '@/shared/Helpers/Hooks/useAppDispatch'
 import { useAppSelector } from '@/shared/Helpers/Hooks/useAppSelector'
 import { useValidation } from '@/shared/Helpers/Hooks/useValidation'
 
 import { BackButton } from '@/shared/ui/backButton'
 import { GoogleButton } from '@/shared/ui/GoogleButton/GoogleButton'
-import { Otp } from '@/shared/ui/OTP/OTP'
 import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import type { FormEvent } from 'react'
 import styles from './Auth.module.css'
 import { authApi } from './model/auth.slice'
+import Cookies from "js-cookie";
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,8 +23,9 @@ export function Auth() {
     = useValidation()
   const dispatch = useAppDispatch()
   const { error } = useAppSelector(state => state.auth)
-  const { theme } = useTheme()
   const navigate = useNavigate()
+
+  const token = Cookies.get("sessionToken");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -56,7 +57,7 @@ export function Auth() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme={theme}
+        theme={'dark'}
         className="absolute w-72"
       />
       <div className={styles.authForm}>
@@ -70,9 +71,7 @@ export function Auth() {
             {auth ? "Вам на почту пришел код" : "Войдите в свой аккаунт"}
           </Title>
 
-          {auth ? (
-            <Otp />
-          ) : (
+          
             <form className="mt-28" onSubmit={handleSubmit}>
               {isLogin ? (
                 <div>
@@ -132,7 +131,6 @@ export function Auth() {
                 </a>
               </Title>
             </form>
-          )}
         </div>
       </div>
     </div>
