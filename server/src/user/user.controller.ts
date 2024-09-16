@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('api/user')
@@ -18,5 +18,15 @@ export class UserController {
   @Post('logout')
   async logout(@Body() body: { sessionToken: string }) {
     return this.userService.logout(body.sessionToken);
+  }
+
+  @Get('getAll')
+  async getAllUsers() {
+    return this.userService.getAllUsers();
+  }
+
+  @Post('getById')
+  async getUserById(@Body() body: { id: number }) {
+    return this.userService.getUserById(body.id);
   }
 }

@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
 import { memo } from 'react'
-import { useTheme } from '../ThemeProvider/ThemeProvider'
 import styles from './Title.module.css'
 
 type tags = 'h1' | 'h2' | 'h3' | 'h4' | 'p'

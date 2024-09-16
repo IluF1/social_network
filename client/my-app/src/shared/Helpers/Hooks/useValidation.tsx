@@ -8,6 +8,8 @@ export function useValidation() {
   const [passwordError, setPasswordError] = useState<string>('')
   const [login, setLogin] = useState<string>('')
   const [loginError, setLoginError] = useState<string>('')
+  const [retypePassword, setRetypePassword] = useState<string>('')
+  const [retypePasswordError, setRetypePasswordError] = useState<string>("");
 
   const validatePassword = (password: string) => {
     if (password.length < 16) {
@@ -26,7 +28,7 @@ export function useValidation() {
 
     if (re.test(String(email).toLowerCase())) {
       setEmailError('')
-      setBlocked(passwordError !== '' || loginError !== '') // проверка всех ошибок
+      setBlocked(passwordError !== '' || loginError !== '') 
     }
     else {
       setEmailError('Некорректная почта!')
@@ -48,13 +50,30 @@ export function useValidation() {
     setLoginError(error)
 
     if (error === '') {
-      setBlocked(passwordError !== '' || emailError !== '') // проверка всех ошибок
+      setBlocked(passwordError !== '' || emailError !== '')
     }
     else {
       setBlocked(true)
     }
   }
 
+  const validateRetypePassword = (retypePassword: string) => {
+    if(retypePassword !== password) {
+      setRetypePasswordError('Пароли не совпадают')
+      setBlocked(true);
+    } else {
+      setRetypePasswordError('')
+      setBlocked(false)
+    }
+  }
+
+  const retypePasswordChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    setRetypePassword(value)
+    validateRetypePassword(value)
+  };
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEmail(value)
@@ -84,5 +103,8 @@ export function useValidation() {
     login,
     loginChangeHandler,
     loginError,
+    retypePasswordChangeHandler,
+    retypePasswordError,
+    retypePassword
   }
 }

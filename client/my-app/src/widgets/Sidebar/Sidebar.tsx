@@ -12,18 +12,17 @@ import {
 import { ExitIcon, ResumeIcon } from "@radix-ui/react-icons";
 import { MiniProfile } from "@/entities/MiniProfile/MiniProfile";
 import { useAppSelector } from "@/shared/Helpers/Hooks/useAppSelector";
-import axios from "axios";
 import { instance } from "@/shared";
 import Cookies from "js-cookie";
+import { token } from "@/shared/Helpers/constansts";
 
 export const Sidebar = () => {
   const user = useAppSelector((state) => state.user.user);
 
-  const token = Cookies.get("sessionToken");
-  
+
   const logout = async () => {
     try {
-       await instance.post("/user/logout", { sessionToken: token });
+      await instance.post("/user/logout", { sessionToken: token });
 
       Cookies.remove("sessionToken");
 
@@ -35,58 +34,62 @@ export const Sidebar = () => {
 
   return (
     <aside>
-        <div className={styles.container}>
+      <div className={styles.container}>
+        {token ? (
           <MiniProfile
             name={user.name}
             login={user.login}
             avatar={user.avatar}
           />
-          <NavElement
-            children="Главная"
-            link="/"
-            icon={<Home />}
-            className=" text-xl mt-6"
-          />
-          <NavElement
-            children="Чаты"
-            link="/chats"
-            icon={<MessageCircle />}
-            className=" text-xl mt-4"
-          />
-          <NavElement
-            children="Друзья"
-            link="/friends"
-            icon={<Contact />}
-            className=" text-xl mt-4"
-          />
-          <NavElement
-            children="Сообщества"
-            link="/vacancys"
-            icon={<ResumeIcon />}
-            className=" text-xl mt-4"
-          />
-          <NavElement
-            children="Новости"
-            link="/news"
-            icon={<Newspaper />}
-            className=" text-xl mt-4"
-          />
-          <NavElement
-            children="Тех.поддержка"
-            link="/help"
-            icon={<BotIcon />}
-            className=" text-xl mt-4"
-          />
-          <NavElement
-            children="О нас"
-            link="/about"
-            icon={<AlertCircle />}
-            className=" text-xl mt-4"
-          />
+        ) : null}
+        <NavElement
+          children="Главная"
+          link="/"
+          icon={<Home />}
+          className=" text-xl mt-6"
+        />
+        <NavElement
+          children="Чаты"
+          link="/chats"
+          icon={<MessageCircle />}
+          className=" text-xl mt-4"
+        />
+        <NavElement
+          children="Друзья"
+          link="/friends"
+          icon={<Contact />}
+          className=" text-xl mt-4"
+        />
+        <NavElement
+          children="Сообщества"
+          link="/vacancys"
+          icon={<ResumeIcon />}
+          className=" text-xl mt-4"
+        />
+        <NavElement
+          children="Новости"
+          link="/news"
+          icon={<Newspaper />}
+          className=" text-xl mt-4"
+        />
+        <NavElement
+          children="Тех.поддержка"
+          link="/help"
+          icon={<BotIcon />}
+          className=" text-xl mt-4"
+        />
+        <NavElement
+          children="О нас"
+          link="/about"
+          icon={<AlertCircle />}
+          className=" text-xl mt-4"
+        />
+        {token ? (
           <button onClick={() => logout()}>
             <ExitIcon width={30} height={30} className=" mt-96" />
           </button>
-        </div>
+        ) : null}
+      </div>
     </aside>
   );
 };

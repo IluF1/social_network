@@ -17,22 +17,22 @@ model User {
   createdAt DateTime @default(now())
   role      String   @default("user")
 
-  Post Post[]
-  Like Likes[]
-
+  posts    Post[]    @relation("AuthorPosts")
+  likes    Likes[]
   sessions Session[]
+
+  Comments Comments[]
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
+  id        Int        @id @default(autoincrement())
   content   String
   image     String?
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime   @default(now())
   authorId  Int
-
-  Like Likes[]
+  author    User       @relation("AuthorPosts", fields: [authorId], references: [id])
+  likes     Likes[]
+  comments  Comments[]
 }
 
 model Likes {
@@ -41,6 +41,19 @@ model Likes {
   userId    Int
   createdAt DateTime @default(now())
   post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([postId, userId]) 
+}
+
+
+model Comments {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  Post    Post?  @relation(fields: [postId], references: [id])
+  content String
   user      User     @relation(fields: [userId], references: [id])
 }
 

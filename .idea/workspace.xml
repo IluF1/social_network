@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a0e12742-7d2d-4a02-b5ed-667b7fff61be" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/client/my-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/app/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/app/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/app/router.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/app/router.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/app/store.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/app/store.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/entities/MiniProfile/MiniProfile.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/entities/MiniProfile/MiniProfile.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/entities/MiniProfile/MiniProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/entities/MiniProfile/MiniProfile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/pages/Auth/Auth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/pages/Auth/Auth.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/pages/Home/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/pages/Home/Home.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/pages/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/pages/Home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/pages/Registration/Registration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/pages/Registration/Registration.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/shared/Helpers/Hooks/useValidation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/shared/Helpers/Hooks/useValidation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/shared/Helpers/constansts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/shared/Helpers/constansts.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/shared/ui/Input/Input.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/shared/ui/Input/Input.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/shared/ui/Input/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/shared/ui/Input/Input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/shared/ui/Title/Title.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/shared/ui/Title/Title.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/shared/ui/backButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/shared/ui/backButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/widgets/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/widgets/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/widgets/Header/model/user.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/widgets/Header/model/user.slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/src/widgets/Sidebar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/src/widgets/Sidebar/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/my-app/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/my-app/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/post/dto/post.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/post/dto/post.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/post/post.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/post/post.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/post/post.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/post/post.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/post/post.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/post/post.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2m6P6Jq0GqCuX7ydYrGZH3iXkwT" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "B:/social_network"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a0e12742-7d2d-4a02-b5ed-667b7fff61be" name="Changes" comment="" />
+      <created>1726393886134</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726393886134</updated>
+    </task>
+    <servers />
+  </component>
+</project>

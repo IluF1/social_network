@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: #e6e6e6ea;
+    --background: #e6e6e6f3;
     --foreground: hsl(0, 0%, 0%);
     --card: hsl(0, 0%, 100%);
     --card-foreground: hsl(0, 0%, 10%);
@@ -30,11 +30,12 @@
     --chart-5: hsl(27, 87%, 67%);
     --radius: 0.5rem;
     --main: rgb(255, 255, 255);
+    --buttons-color: rgb(98, 98, 98) ;
     --image: url("../images/backgroundWhite.png")
   }
 
   .dark {
-    --background: #151515ec;
+    --background: #272727f3;
     --foreground: #ffffff;
     --card: hsl(0, 0%, 10%);
     --card-foreground: hsl(0, 0%, 95%);
@@ -49,6 +50,7 @@
     --accent: hsl(0, 0%, 20%);
     --accent-foreground: hsl(0, 0%, 95%);
     --destructive: hsl(0, 60%, 40%);
+    --buttons-color: rgb(98, 98, 98) ;
     --destructive-foreground: hsl(0, 0%, 95%);
     --border: hsl(0, 0%, 76%);
     --input: hsl(0, 0%, 20%);
@@ -66,7 +68,7 @@
 @layer base {
   * {
     @apply border-border;
-   font-family: "JetBrains Mono", monospace;
+     font-family: "Inter", sans-serif;
   }
   body {
     @apply bg-background text-foreground;

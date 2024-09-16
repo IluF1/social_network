@@ -20,7 +20,12 @@ export class UserService {
       throw new NotFoundException('Пользователь не найден');
     }
 
-    return user;
+    return {
+      login: user.login,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+    };
   }
 
   async getUserBySession(sessionToken: string) {
@@ -40,7 +45,30 @@ export class UserService {
       },
     });
 
-    return user;
+    return {
+      login: user.login,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+    };
+  }
+
+  async getUserById(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if(!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    return {
+      name: user.name,
+      login: user.login,
+      avatar: user.avatar
+    }
   }
 
   async logout(sessionToken: string) {
@@ -50,7 +78,11 @@ export class UserService {
       });
     } catch (error) {
       console.error('Ошибка при удалении сессии:', error);
-      throw new NotFoundException('Сессия не найдена');
+      throw new NotFoundException('Сессия не найдена или уже удалена');
     }
+  }
+
+  async getAllUsers() {
+    return await this.prisma.user.findMany();
   }
 }

@@ -2,7 +2,7 @@ import { CustomButton, CustomInput, Title } from "@/shared";
 
 import { useAppDispatch } from "@/shared/Helpers/Hooks/useAppDispatch";
 import { useValidation } from "@/shared/Helpers/Hooks/useValidation";
-import { BackButton } from "@/shared/ui/backButton";
+import { BackButton } from "@/shared/ui/BackButton";
 import { GoogleButton } from "@/shared/ui/GoogleButton/GoogleButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import { registrationApi } from "./model/registration.slice";
 import styles from "./Registration.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import { authApi } from "../Auth/model/auth.slice";
+import { Alert } from "@/shared/Helpers/Alert";
 
 export function Registration() {
   const navigate = useNavigate();
@@ -26,6 +27,9 @@ export function Registration() {
     loginChangeHandler,
     login,
     loginError,
+    retypePassword,
+    retypePasswordChangeHandler,
+    retypePasswordError
   } = useValidation();
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
@@ -47,22 +51,9 @@ export function Registration() {
       console.error("Registration failed:", error);
     }
   };
-
+  Alert();
   return (
     <div className={styles.container}>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme={"dark"}
-        className="absolute w-72"
-      />
       <div className={styles.registrationForm}>
         <div className="flex justify-between items-center p-4">
           <BackButton backEvent={() => navigate("/")} />
@@ -110,6 +101,18 @@ export function Registration() {
             />
             {passwordError && (
               <p className=" text-lightRed mt-2">{passwordError}</p>
+            )}
+            <CustomInput
+              children="Повторите ваш пароль"
+              className="mt-8"
+              type="password"
+              value={retypePassword}
+              onChange={(e) => retypePasswordChangeHandler(e)}
+              error={retypePasswordError.length > 0}
+              required
+            />
+            {retypePasswordError && (
+              <p className=" text-lightRed mt-2">{retypePasswordError}</p>
             )}
             <CustomButton
               className={styles.registration_button}

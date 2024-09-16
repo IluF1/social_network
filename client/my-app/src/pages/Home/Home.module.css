@@ -1,9 +1,44 @@
 .container {
-    display: flex;
-    margin-top: 20px;
-    padding-left: 30px;
+  display: flex;
+  margin-top: 20px;
+  padding-left: 30px;
 }
 
 .content {
-    width: 1000px;
+  width: 1000px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.posts {
+  margin-top: 20px;
+}
+
+.image {
+  width: 150px;
+  border: none;
+  height: 50px;
+}
+.img {
+  height: 100px;
+}
+
+.images {
+  background-color: var(--background);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+}
+
+.imageButton, .emojiButton {
+  width: 50px;
+  border-radius: 10px;
+  padding-left: 13px;
+  margin-left: 10px;
+}
+.interfaceCreatingPost {
+    display: flex;
 }

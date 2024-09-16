@@ -1,7 +1,8 @@
 import { Auth } from '@/pages/Auth/Auth'
 import { Home } from '@/pages/Home/Home'
 import { Registration } from '@/pages/Registration/Registration'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, useLocation } from 'react-router-dom'
+
 
 export const Router = createBrowserRouter([
   {
@@ -19,4 +20,7 @@ export const Router = createBrowserRouter([
   {
     path: '/:login'
   },
+  {
+    path: '/post/:login/:id'
+  }
 ])

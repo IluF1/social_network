@@ -4,7 +4,7 @@ import { useAppDispatch } from '@/shared/Helpers/Hooks/useAppDispatch'
 import { useAppSelector } from '@/shared/Helpers/Hooks/useAppSelector'
 import { useValidation } from '@/shared/Helpers/Hooks/useValidation'
 
-import { BackButton } from '@/shared/ui/backButton'
+import { BackButton } from '@/shared/ui/BackButton'
 import { GoogleButton } from '@/shared/ui/GoogleButton/GoogleButton'
 import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
@@ -25,7 +25,6 @@ export function Auth() {
   const { error } = useAppSelector(state => state.auth)
   const navigate = useNavigate()
 
-  const token = Cookies.get("sessionToken");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()

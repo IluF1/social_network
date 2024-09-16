@@ -12,6 +12,8 @@ interface Props {
   type?: 'text' | 'password' | 'email' | 'number'
   error?: boolean
   required?: boolean
+  textarea?: boolean
+  onClick?: () => void
 }
 
 export function CustomInput({
@@ -22,16 +24,22 @@ export function CustomInput({
   type = 'text',
   error,
   required = false,
+  textarea = false,
+  onClick
 }: Props) {
   const [show, setShow] = useState<boolean>(false)
+  const Tag = textarea ? 'textarea' : 'input'
   return (
     <div>
-      <input
+      <Tag
         placeholder={typeof children === 'string' ? children : ''}
         value={value}
         required={required}
         onChange={onChange}
-        className={cn(error ? styles.error : styles.customInput, className)}
+        onClick={onClick}
+        className={cn(error ? styles.error : styles.customInput, className, textarea && styles.textarea)}
+        cols={44}
+
         type={show ? 'text' : type}
       />
       {type === 'password'

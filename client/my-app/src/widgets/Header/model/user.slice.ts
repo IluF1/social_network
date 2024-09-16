@@ -19,7 +19,7 @@ const initialState: IInitialState = {
   user: {
     name: "",
     password: "",
-    avatar: '',
+    avatar: "",
     login: "",
     email: "",
   },
@@ -31,27 +31,39 @@ interface IGetUserBySessionToken {
   session: string;
 }
 
-export const getUserBySessionToken = createAsyncThunk<IUser, IGetUserBySessionToken>(
-  "user/getUserBySessionToken",
-  async ({ session }, { rejectWithValue }) => {
-    try {
-      const response = await instance.post("/user/session", {
-        sessionToken: session,
-      });
-      return response.data;
-    } catch (error) {
-      const message =
-        (error as any)?.response?.data?.message || "Что-то пошло не так";
-      return rejectWithValue(message);
-    }
+// Запрос пользователя по токену сессии
+export const getUserBySessionToken = createAsyncThunk<
+  IUser,
+  IGetUserBySessionToken
+>("user/getUserBySessionToken", async ({ session }, { rejectWithValue }) => {
+  try {
+    const response = await instance.post("/user/session", {
+      sessionToken: session,
+    });
+    return response.data;
+  } catch (error) {
+    const message =
+      (error as any)?.response?.data?.message || "Что-то пошло не так";
+    return rejectWithValue(message);
   }
-);
+});
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     clearError: (state) => {
+      state.error = null;
+    },
+    logout: (state) => {
+      state.user = {
+        name: "",
+        password: "",
+        avatar: "",
+        login: "",
+        email: "",
+      };
+      state.status = "idle";
       state.error = null;
     },
   },
@@ -68,9 +80,22 @@ const userSlice = createSlice({
       .addCase(getUserBySessionToken.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
+
+        if (
+          state.error?.includes("Unauthorized") ||
+          state.error?.includes("Not Found")
+        ) {
+          state.user = {
+            name: "",
+            password: "",
+            avatar: "",
+            login: "",
+            email: "",
+          };
+        }
       });
   },
 });
 
-export const { clearError } = userSlice.actions;
+export const { clearError, logout } = userSlice.actions;
 export default userSlice.reducer;

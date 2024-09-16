@@ -72,7 +72,12 @@ export class AuthService {
 
     return {
       message: 'Аутентификация успешна',
-      user: authenticatedUser,
+      user: {
+        name: authenticatedUser.name,
+        login: authenticatedUser.login,
+        email: authenticatedUser.email,
+        avatar: authenticatedUser.avatar,
+      },
       sessionToken: session.sessionToken,
     };
   }

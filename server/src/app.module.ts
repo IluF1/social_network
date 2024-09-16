@@ -26,7 +26,7 @@ export class AppModule implements NestModule {
           secret: process.env.SECRET_KEY || 'secret',
           resave: false,
           saveUninitialized: false,
-          cookie: { maxAge: 3600000 },
+          cookie: { maxAge: 3600000, httpOnly: true },
         }),
       )
       .forRoutes('*');

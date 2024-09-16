@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 
 import { memo } from 'react'
 import { Title } from './Title/Title'
+import { ArrowLeft } from 'lucide-react'
 
 interface Props {
   className?: string
@@ -11,13 +12,15 @@ interface Props {
 }
 
 export const BackButton = memo(({ className, backEvent }: Props) => {
+
+ 
   return (
     <div
       className={cn('flex items-center cursor-pointer', className)}
       onClick={backEvent}
     >
-      <img src={arrowWhite} alt="back" />
-      <Title tag="h4" className="uppercase ml-2">
+      <ArrowLeft/>
+      <Title tag="h3" className=" ml-2">
         Назад
       </Title>
     </div>

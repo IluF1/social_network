@@ -6,22 +6,17 @@ import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/shared/Helpers/Hooks/useAppDispatch";
 import { getUserBySessionToken } from "./model/user.slice";
+import { token } from "@/shared/Helpers/constansts";
 
 export const Header = () => {
-  const hideHeader =
-    window.location.pathname === "/auth" ||
-    window.location.pathname === "/registration";
-
-  const token = Cookies.get("sessionToken") || "";
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getUserBySessionToken({ session: token }));
+    dispatch(getUserBySessionToken({ session: token || "" }));
   }, [dispatch, token]);
 
   return (
     <>
-      {!hideHeader && (
         <header className={styles.container}>
           <div className={styles.rightBar}>
             <a href="/" className={styles.logoBlock}>
@@ -58,7 +53,6 @@ export const Header = () => {
             </div>
           )}
         </header>
-      )}
     </>
   );
 };

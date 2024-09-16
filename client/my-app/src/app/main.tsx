@@ -7,11 +7,17 @@ import './assets/styles/reset.css'
 import './assets/styles/index.css'
 import { Header } from '@/widgets/Header/Header'
 import { Sidebar } from '@/widgets/Sidebar/Sidebar'
+import { HideComponentOnPage } from '@/shared/Helpers/HideComponentOnPage'
+import { ThemeProvider } from '@/shared/ui/ThemeProvider'
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-      <Header/>
-      <Sidebar/>
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <HideComponentOnPage>
+        <Header />
+        <Sidebar />
+      </HideComponentOnPage>
       <RouterProvider router={Router} />
-  </Provider>,
-)
+    </ThemeProvider>
+  </Provider>
+);
