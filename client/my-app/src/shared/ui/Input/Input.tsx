@@ -4,6 +4,7 @@ import { cn } from '@/shared'
 import { type ChangeEventHandler, type ReactNode, useState } from 'react'
 import styles from './Input.module.css'
 
+
 interface Props {
   children: ReactNode
   value?: string
@@ -38,8 +39,6 @@ export function CustomInput({
         onChange={onChange}
         onClick={onClick}
         className={cn(error ? styles.error : styles.customInput, className, textarea && styles.textarea)}
-        cols={44}
-
         type={show ? 'text' : type}
       />
       {type === 'password'

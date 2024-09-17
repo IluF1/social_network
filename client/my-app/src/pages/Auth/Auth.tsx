@@ -6,26 +6,29 @@ import { useValidation } from '@/shared/Helpers/Hooks/useValidation'
 
 import { BackButton } from '@/shared/ui/BackButton'
 import { GoogleButton } from '@/shared/ui/GoogleButton/GoogleButton'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import type { FormEvent } from 'react'
 import styles from './Auth.module.css'
 import { authApi } from './model/auth.slice'
-import Cookies from "js-cookie";
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
+import { token } from '@/shared/Helpers/constansts'
 
 export function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
-  const [auth, setAuth] = useState<boolean>(false)
   const { email, emailChangeHandler, emailError, blocked, login, loginChangeHandler }
     = useValidation()
   const dispatch = useAppDispatch()
-  const { error } = useAppSelector(state => state.auth)
+  const error = useAppSelector(state => state.auth.error)
   const navigate = useNavigate()
 
-
+   useEffect(() => {
+     if (token?.length) {
+       navigate("/");
+     }
+   }, [token]);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
@@ -36,11 +39,10 @@ export function Auth() {
       else {
         await dispatch(authApi({ password, email })).unwrap()
       }
-      toast.success('Вы успешно зашли в аккаунт')
       navigate('/')
     }
-    catch (error) {
-      toast.error(error.message || 'Ошибка аутентификации')
+    catch(err: any) {
+      toast.error(err)
     }
   }
 
@@ -67,7 +69,7 @@ export function Auth() {
         </div>
         <div className="mt-20 text-center">
           <Title tag="h1">
-            {auth ? "Вам на почту пришел код" : "Войдите в свой аккаунт"}
+           Войдите в свой аккаунт
           </Title>
 
           

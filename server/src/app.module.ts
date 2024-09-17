@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
+import { CommentsModule } from './comments/comments.module';
 import * as session from 'express-session';
 
 @Module({
@@ -15,6 +16,7 @@ import * as session from 'express-session';
     PrismaModule,
     UserModule,
     PostModule,
+    CommentsModule,
   ],
   exports: [PrismaModule],
 })

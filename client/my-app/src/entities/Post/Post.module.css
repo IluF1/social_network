@@ -1,17 +1,31 @@
 .container {
     width: 100%;
     display: inline-table;
-    min-height: 200px;
+    min-height: 10px;
     background-color: var(--background);
-    border-radius: 10px;
+    border-radius: 20px;
     margin-bottom: 20px;
     padding: 10px;
+    border: 1px solid var(--border);
 }
 
 .content {
-    margin-top: 20px;
-    word-wrap:break-word;
+    margin-top: 5px;
+    word-wrap:break-all;
     width: 950px;
+    height: 65px;
+    color: rgb(184, 184, 184);
+    font-size: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.title {
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 50px;
 }
 
 .date {
@@ -20,7 +34,7 @@
 }
 
 .interface {
-    margin-top: 50px;
+    margin-top: 20px;
     display: flex;
 }
 
@@ -29,7 +43,7 @@
     margin-right: 20px;
     background-color: var(--buttons-color);
     color: var(--foreground);
-    min-width: 40px;
+    min-width: 70px;
     height: 30px;
     border-radius: 20px;
     display: flex;
@@ -45,6 +59,39 @@
     margin-top: -2px;
 }
 
-.icon {
+
+.icon{
     margin-top: -2px;
+}
+.comment_input {
+    height: 45px;
+    margin-top: 10px;
+    width: 900px;
+}
+
+.createComment_block {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+}
+
+.avatar {
+    height: 40px;
+    border-radius: 50px;
+}
+.send_button {
+    width: 50px;
+    height: 45px;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
+.send_img {
+    display: block;
+    margin: auto;
+}
+
+.comments {
+    margin-top: 20px;
 }

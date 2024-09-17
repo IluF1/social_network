@@ -25,10 +25,10 @@ export const Header = () => {
                 Сеть
               </Title>
             </a>
-            <CustomInput children="Поиск" className={styles.searchInput} />
           </div>
           {token ? (
             <div className={styles.authUser}>
+              <button className={styles.subscribe_button}>Сеть+</button>
               <button className=" mr-6">
                 <Bell width={30} height={30} className=" text-foreground" />
               </button>

@@ -1,26 +1,30 @@
-import { Auth } from '@/pages/Auth/Auth'
-import { Home } from '@/pages/Home/Home'
-import { Registration } from '@/pages/Registration/Registration'
-import { createBrowserRouter, useLocation } from 'react-router-dom'
-
+import { Auth } from "@/pages/Auth/Auth";
+import { CreatePost } from "@/pages/CreatePost/CreatePost";
+import { Home } from "@/pages/Home/Home";
+import { Registration } from "@/pages/Registration/Registration";
+import { createBrowserRouter, useLocation } from "react-router-dom";
 
 export const Router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Home />,
   },
   {
-    path: '/auth',
+    path: "/auth",
     element: <Auth />,
   },
   {
-    path: '/registration',
+    path: "/registration",
     element: <Registration />,
   },
   {
-    path: '/:login'
+    path: "/:login",
   },
   {
-    path: '/post/:login/:id'
+    path: "/post/:login/:id",
+  },
+  {
+    path: '/createPost',
+    element: <CreatePost/>
   }
-])
+]);

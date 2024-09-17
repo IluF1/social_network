@@ -25,12 +25,13 @@
     height: 25px;
 }
 .dark {
-    filter: invert(0);
+    filter: invert(1);
 }
 
 .textarea {
     outline: none;
     padding-top: 10px;
     height: 400px;
-    resize: none;
+    resize: vertical;
+    font-size: 30px;
 }

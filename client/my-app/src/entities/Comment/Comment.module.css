@@ -1,0 +1,42 @@
+.container, .userComment {
+    display: flex;
+    width: 100%;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    width: 100%;
+    justify-content: space;
+}
+.userComment {
+    border: 1px solid orange;
+}
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+}
+
+.content {
+    margin-left: 10px;
+    color: rgb(255, 255, 255);
+    width: 75%;
+}
+.date {
+    float: right;
+}
+.interfaceItemOne, .interfaceItemTwo {
+        margin-right: 20px;
+    background-color: var(--buttons-color);
+    color: var(--foreground);
+    min-width: 70px;
+    height: 30px;
+    border-radius: 20px;
+    display: flex;
+    padding: 3px 15px 10px 23px;
+    text-align: center;
+}
+.commentInterface {
+    margin-top: 10px;
+    display: flex;
+}

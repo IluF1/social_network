@@ -28,6 +28,7 @@ export class PostService {
     try {
       await this.prisma.post.create({
         data: {
+          title: post.title,
           content: post.content,
           image: image || null,
           author: { connect: { id: user.id } },
@@ -44,18 +45,40 @@ export class PostService {
     try {
       const posts = await this.prisma.post.findMany({
         include: {
+          author: true,
           likes: true,
-          comments: true,
+          comments: {
+            include: {
+              user: true
+            }
+          }
+        },
+        skip: (post.page - 1) * post.limit,
+        take: post.limit,
+        orderBy: {
+          createdAt: 'desc',
         },
       });
 
-      return {
-        postsWithLikesCount: posts.map((post) => ({
-          ...post,
-          likesCount: post.likes.length,
-          commentsCount: post.comments.length,
-        })),
-      };
+      const postsWithCounts = await Promise.all(
+        posts.map(async (post) => {
+          const [likesCount, commentsCount, postsCount] = await Promise.all([
+            this.prisma.likes.count({ where: { postId: post.id } }),
+            this.prisma.comments.count({ where: { postId: post.id } }),
+            this.prisma.post.count({where: { id: post.id }})
+          ]);
+
+          return {
+            ...post,
+            likesCount,
+            commentsCount,
+          };
+        }),
+      );
+      const postsCount = await this.prisma.post.count({
+        where: { id: post.postId },
+      });
+      return { posts: postsWithCounts, postsCount };
     } catch (error) {
       console.error('Error fetching posts:', error);
       throw new BadRequestException('Error fetching posts');
@@ -83,40 +106,37 @@ export class PostService {
     }
 
     try {
-      const existingLike = await this.prisma.likes.findUnique({
-        where: {
-          postId_userId: {
-            postId: post.id,
-            userId: user.id,
+      const likeAction = await this.prisma.$transaction(async (prisma) => {
+        const existingLike = await prisma.likes.findUnique({
+          where: {
+            postId_userId: {
+              postId: post.id,
+              userId: user.id,
+            },
           },
-        },
-      });
+        });
 
-      if (existingLike) {
-        // Update existing like
-        await this.prisma.likes.update({
-          where: { id: existingLike.id },
-          data: { createdAt: new Date() },
-        });
-      } else {
-        // Create new like
-        await this.prisma.likes.create({
-          data: {
-            postId: post.id,
-            userId: user.id,
-            createdAt: new Date(),
-          },
-        });
-      }
+        if (existingLike) {
+          await prisma.likes.delete({
+            where: { id: existingLike.id },
+          });
+          return { liked: false };
+        } else {
+          await prisma.likes.create({
+            data: { postId: post.id, userId: user.id, createdAt: new Date() },
+          });
+          return { liked: true };
+        }
+      });
 
       const totalLikes = await this.prisma.likes.count({
         where: { postId: post.id },
       });
 
-      return { totalLikes };
+      return { totalLikes, liked: likeAction.liked };
     } catch (err) {
-      console.error('Error adding like:', err);
-      throw new BadRequestException('Could not add like');
+      console.error('Error processing like:', err);
+      throw new BadRequestException('Could not process like');
     }
   }
 }

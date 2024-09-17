@@ -50,6 +50,7 @@ export class UserService {
       email: user.email,
       name: user.name,
       avatar: user.avatar,
+      id: user.id
     };
   }
 
@@ -67,7 +68,8 @@ export class UserService {
     return {
       name: user.name,
       login: user.login,
-      avatar: user.avatar
+      avatar: user.avatar,
+      id: user.id
     }
   }
 

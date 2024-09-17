@@ -11,4 +11,5 @@ export class PostControllerDto {
     @IsNumber()
     @IsOptional()
     readonly postId: number
+
 }

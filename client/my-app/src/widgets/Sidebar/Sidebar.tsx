@@ -8,6 +8,7 @@ import {
   Home,
   MessageCircle,
   Newspaper,
+  Pencil,
 } from "lucide-react";
 import { ExitIcon, ResumeIcon } from "@radix-ui/react-icons";
 import { MiniProfile } from "@/entities/MiniProfile/MiniProfile";
@@ -67,6 +68,12 @@ export const Sidebar = () => {
           className=" text-xl mt-4"
         />
         <NavElement
+          children="Создать пост"
+          link="/createPost"
+          icon={<Pencil />}
+          className=" text-xl mt-4"
+        />
+        <NavElement
           children="Новости"
           link="/news"
           icon={<Newspaper />}
@@ -86,7 +93,7 @@ export const Sidebar = () => {
         />
         {token ? (
           <button onClick={() => logout()}>
-            <ExitIcon width={30} height={30} className=" mt-96" />
+            <ExitIcon width={30} height={30} className=" mt-80" />
           </button>
         ) : null}
       </div>

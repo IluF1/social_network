@@ -27,6 +27,7 @@ model User {
 model Post {
   id        Int        @id @default(autoincrement())
   content   String
+  title String?
   image     String?
   createdAt DateTime   @default(now())
   authorId  Int
@@ -52,8 +53,8 @@ model Comments {
   postId    Int
   userId    Int
   createdAt DateTime @default(now())
-  Post    Post?  @relation(fields: [postId], references: [id])
-  content String
+  Post      Post?  @relation(fields: [postId], references: [id])
+  content   String
   user      User     @relation(fields: [userId], references: [id])
 }
 

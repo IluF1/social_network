@@ -4,17 +4,18 @@
   height: 90px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-   border: 1px solid var(--border);
+  border: 1px solid var(--border);
   padding: 15px;
-  display: flex; 
+  display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
+  border-top-width: 0px;
 }
 
 .rightBar {
-  display: flex; 
+  display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
 }
 .leftBar {
   display: grid;
@@ -27,12 +28,11 @@
   border-radius: 20px;
 }
 .logoBlock {
-   display: flex; 
+  display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
 }
 .avatar {
- 
   width: 70px;
   height: 70px;
   border-radius: 40px;
@@ -40,7 +40,7 @@
 .authUser {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
 }
 
 .searchInput {
@@ -50,3 +50,16 @@
 .name {
   margin-left: 20px;
 }
+
+.subscribe_button {
+  border-radius: 10px;
+  width: 150px;
+  height: 40px;
+  margin-right: 20px;
+  background: linear-gradient(135deg, #ff8800, #ffc422);
+  transition: 0.3s ease-in-out;
+  color: white;
+  font-weight: 500;
+}
+
+

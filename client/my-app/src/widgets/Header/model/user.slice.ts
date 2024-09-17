@@ -7,6 +7,7 @@ interface IUser {
   login: string;
   email: string;
   password: string;
+  id: number
 }
 
 interface IInitialState {
@@ -22,6 +23,7 @@ const initialState: IInitialState = {
     avatar: "",
     login: "",
     email: "",
+    id: 0
   },
   status: "idle",
   error: null,
@@ -31,7 +33,6 @@ interface IGetUserBySessionToken {
   session: string;
 }
 
-// Запрос пользователя по токену сессии
 export const getUserBySessionToken = createAsyncThunk<
   IUser,
   IGetUserBySessionToken
@@ -53,17 +54,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     clearError: (state) => {
-      state.error = null;
-    },
-    logout: (state) => {
-      state.user = {
-        name: "",
-        password: "",
-        avatar: "",
-        login: "",
-        email: "",
-      };
-      state.status = "idle";
       state.error = null;
     },
   },
@@ -91,11 +81,12 @@ const userSlice = createSlice({
             avatar: "",
             login: "",
             email: "",
+            id: 0
           };
         }
       });
   },
 });
 
-export const { clearError, logout } = userSlice.actions;
+export const { clearError } = userSlice.actions;
 export default userSlice.reducer;

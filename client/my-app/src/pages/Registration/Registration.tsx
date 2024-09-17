@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/shared/Helpers/Hooks/useAppDispatch";
 import { useValidation } from "@/shared/Helpers/Hooks/useValidation";
 import { BackButton } from "@/shared/ui/BackButton";
 import { GoogleButton } from "@/shared/ui/GoogleButton/GoogleButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -13,6 +13,7 @@ import styles from "./Registration.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import { authApi } from "../Auth/model/auth.slice";
 import { Alert } from "@/shared/Helpers/Alert";
+import { token } from "@/shared/Helpers/constansts";
 
 export function Registration() {
   const navigate = useNavigate();
@@ -33,9 +34,12 @@ export function Registration() {
   } = useValidation();
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
-  const notify = (message: string) => {
-    toast.error(message);
-  };
+
+  useEffect(() => {
+    if (token?.length) {
+      navigate("/");
+    }
+  }, [token])
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -45,13 +49,10 @@ export function Registration() {
       ).unwrap();
       await dispatch(authApi({ email, password })).unwrap();
       navigate("/");
-      toast.success("Вы успешно зарегистрировались");
     } catch (error) {
-      notify(`Ошибка регистрации: ${error || "Неизвестная ошибка"}`);
-      console.error("Registration failed:", error);
+      console.error(`Ошибка регистрации: ${error || "Неизвестная ошибка"}`);
     }
   };
-  Alert();
   return (
     <div className={styles.container}>
       <div className={styles.registrationForm}>

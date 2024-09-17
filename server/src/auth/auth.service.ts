@@ -3,7 +3,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserDto } from './dto/user.dto';
+import { AuthDto } from './dto/auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  private async findUser(user: UserDto) {
+  private async findUser(user: AuthDto) {
     if (user.login) {
       return this.prisma.user.findUnique({
         where: { login: user.login },
@@ -48,7 +48,7 @@ export class AuthService {
     });
   }
 
-  async authUser(user: UserDto, session: any) {
+  async authUser(user: AuthDto, session: any) {
     const findUser = await this.findUser(user);
     const authenticatedUser = await this.authenticateUser(
       findUser,
@@ -81,6 +81,4 @@ export class AuthService {
       sessionToken: session.sessionToken,
     };
   }
-
-
 }

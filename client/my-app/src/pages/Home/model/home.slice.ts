@@ -5,19 +5,29 @@ interface IUser {
   name?: string;
   avatar?: string;
   login?: string;
+  id?:number
+}
+
+export interface IComment {
+  content: string
+  user: IUser
+  userId: number
+  createdAt: string
 }
 
 interface IPost {
+  postsCount: number;
   content: string;
-  user: IUser;
+  author: IUser;
   authorId?: number;
   id?: number;
   createdAt?: string;
   image?: File;
   likesCount?: number;
-  likes?: any[]; // Замените на более точный тип, если возможно
-  comments?: any[]; // Замените на более точный тип, если возможно
+  likes?: any[];
+  comments?: IComment[];
   commentsCount?: number;
+  title?: string
 }
 
 interface IGetPosts {
@@ -29,12 +39,43 @@ interface IGetPosts {
 interface IInitialState {
   error: string;
   posts: IPost[];
+  postsCount?: number
 }
 
 export const initialState: IInitialState = {
   error: "",
-  posts: [], 
+  posts: [],
+  postsCount: 0
 };
+
+interface ICreateComment {
+  content: string;
+  user: {
+    id: number;
+  };
+  post_id: number;
+}
+
+export const createCommentApi = createAsyncThunk(
+  "comment/createComment",
+  async (createComment: ICreateComment) => {
+    try {
+      const response = await instance.post("/comments/createComment", {
+        content: createComment.content,
+        user: {
+          id: createComment.user.id,
+        },
+        post_id: createComment.post_id,
+      });
+
+      return response.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
+
 
 
 export const createPostApi = createAsyncThunk(
@@ -43,8 +84,9 @@ export const createPostApi = createAsyncThunk(
     try {
       const response = await instance.post("/post/create", {
         content: post.content,
-        userLogin: post.user?.login,
+        userLogin: post.author?.login,
         image: post.image,
+        title: post.title
       });
 
       return response.data;
@@ -60,9 +102,8 @@ export const getPosts = createAsyncThunk("post/getPosts", async (posts: IGetPost
     const response = await instance.post("/post/getPosts", {
       limit: posts.limit,
       page: posts.page,
-      postId: posts.postId
     });
-    return response.data.postsWithLikesCount;
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error("Failed to fetch posts");
@@ -79,7 +120,8 @@ const posts = createSlice({
         state.posts = [...state.posts, action.payload];
       })
       .addCase(getPosts.fulfilled, (state, action) => {
-        state.posts = action.payload;
+        state.postsCount = action.payload.postsCount
+        state.posts.push(...action.payload.posts);
       })
       .addCase(createPostApi.rejected, (state, action) => {
         state.error = action.error.message || "Error creating post";

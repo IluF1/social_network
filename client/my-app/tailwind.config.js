@@ -29,7 +29,7 @@ export default {
       },
       colors: {
         lightRed: 'rgb(230, 149, 149)',
-        background: 'var(--background)',
+        background: 'var(--main)',
         foreground: 'var(--foreground)',
         card: {
           DEFAULT: 'hsl(var(--card))',

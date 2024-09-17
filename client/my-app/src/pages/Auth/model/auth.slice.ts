@@ -54,14 +54,7 @@ export const authApi = createAsyncThunk(
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
-    logout: (state) => {
-      state.user = initialState.user;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(authApi.pending, (state) => {
@@ -80,6 +73,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { clearError, logout } = authSlice.actions;
+
 
 export default authSlice.reducer;

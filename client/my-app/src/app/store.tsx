@@ -1,5 +1,5 @@
 import { authSlice } from '@/pages/Auth/model/auth.slice'
-import postSlice from '@/pages/Home/model/post.slice'
+import postSlice from '@/pages/Home/model/home.slice'
 import { registrationSlice } from '@/pages/Registration/model/registration.slice'
 import  userSlice  from '@/widgets/Header/model/user.slice'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'

@@ -1,12 +1,10 @@
-import { UserDto } from "src/auth/dto/user.dto";
+import { UserDto } from "src/comments/dto/user.dto";
 import { PostDto } from "./post.dto";
 import { IsNumber } from "class-validator";
 
 export class LikeDto {
     @IsNumber()
-    readonly user: {
-        readonly id: number
-    }
+    readonly user: UserDto
     readonly post: {
         readonly id: number
     }
