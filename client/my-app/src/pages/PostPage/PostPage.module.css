@@ -1,0 +1,23 @@
+.container {
+    max-width: calc(100% - 320px);
+    min-height: 900px;
+    border-radius: 20px;
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-top: 20px; 
+    margin-left: 330px; 
+}
+
+.content {
+    margin-top: 40px;
+}
+.title {
+    font-size: 80px;
+    word-wrap: break-word;
+}
+.content_text {
+    margin-top: 50px;
+    font-size: 30px;
+    word-wrap: break-word;
+}

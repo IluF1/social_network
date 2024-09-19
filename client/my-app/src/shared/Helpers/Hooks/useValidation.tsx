@@ -1,110 +1,107 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 export function useValidation() {
-  const [email, setEmail] = useState<string>('')
-  const [emailError, setEmailError] = useState<string>('')
-  const [blocked, setBlocked] = useState<boolean>(true)
-  const [password, setPassword] = useState<string>('')
-  const [passwordError, setPasswordError] = useState<string>('')
-  const [login, setLogin] = useState<string>('')
-  const [loginError, setLoginError] = useState<string>('')
-  const [retypePassword, setRetypePassword] = useState<string>('')
-  const [retypePasswordError, setRetypePasswordError] = useState<string>("");
+    const [email, setEmail] = useState<string>('');
+    const [emailError, setEmailError] = useState<string>('');
+    const [blocked, setBlocked] = useState<boolean>(true);
+    const [password, setPassword] = useState<string>('');
+    const [passwordError, setPasswordError] = useState<string>('');
+    const [login, setLogin] = useState<string>('');
+    const [loginError, setLoginError] = useState<string>('');
+    const [retypePassword, setRetypePassword] = useState<string>('');
+    const [retypePasswordError, setRetypePasswordError] = useState<string>('');
 
-  const validatePassword = (password: string) => {
-    if (password.length < 16) {
-      setPasswordError('Пароль должен содержать не менее 16 символов')
-      setBlocked(true)
-    }
-    else {
-      setPasswordError('')
-      setBlocked(emailError !== '' || loginError !== '') // проверка всех ошибок
-    }
-  }
+    const validatePassword = (password: string) => {
+        if (password.length < 16) {
+            setPasswordError('Пароль должен содержать не менее 16 символов');
+            setBlocked(true);
+        } else {
+            setPasswordError('');
+            setBlocked(emailError !== '' || loginError !== ''); // проверка всех ошибок
+        }
+    };
 
-  const validateEmail = (email: string) => {
-    const re
-      = /^(([^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|.".+")@(\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\]|(?:[a-z\-0-9]+\.)+[a-z]{2,})$/i
+    const validateEmail = (email: string) => {
+        const re =
+            /^(([^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|.".+")@(\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\]|(?:[a-z\-0-9]+\.)+[a-z]{2,})$/i;
 
-    if (re.test(String(email).toLowerCase())) {
-      setEmailError('')
-      setBlocked(passwordError !== '' || loginError !== '') 
-    }
-    else {
-      setEmailError('Некорректная почта!')
-      setBlocked(true)
-    }
-  }
+        if (re.test(String(email).toLowerCase())) {
+            setEmailError('');
+            setBlocked(passwordError !== '' || loginError !== '');
+        } else {
+            setEmailError('Некорректная почта!');
+            setBlocked(true);
+        }
+    };
 
-  const validateLogin = (login: string) => {
-    let error = ''
+    const validateLogin = (login: string) => {
+        let error = '';
 
-    if (login.length <= 5) {
-      error = 'Ваш логин должен содержать не менее 5 символов'
-    }
+        if (login.length <= 5) {
+            error = 'Ваш логин должен содержать не менее 5 символов';
+        }
 
-    if (/^\d/.test(login)) {
-      error = 'Ваш логин не должен начинаться с цифры'
-    }
+        if (/^\d/.test(login)) {
+            error = 'Ваш логин не должен начинаться с цифры';
+        }
 
-    setLoginError(error)
+        setLoginError(error);
 
-    if (error === '') {
-      setBlocked(passwordError !== '' || emailError !== '')
-    }
-    else {
-      setBlocked(true)
-    }
-  }
+        if (error === '') {
+            setBlocked(passwordError !== '' || emailError !== '');
+        } else {
+            setBlocked(true);
+        }
+    };
 
-  const validateRetypePassword = (retypePassword: string) => {
-    if(retypePassword !== password) {
-      setRetypePasswordError('Пароли не совпадают')
-      setBlocked(true);
-    } else {
-      setRetypePasswordError('')
-      setBlocked(false)
-    }
-  }
+    const validateRetypePassword = (retypePassword: string) => {
+        if (retypePassword !== password) {
+            setRetypePasswordError('Пароли не совпадают');
+            setBlocked(true);
+        } else {
+            setRetypePasswordError('');
+            setBlocked(false);
+        }
+    };
 
-  const retypePasswordChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.value;
-    setRetypePassword(value)
-    validateRetypePassword(value)
-  };
-  const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setEmail(value)
-    validateEmail(value)
-  }
+    const retypePasswordChangeHandler = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const value = e.target.value;
+        setRetypePassword(value);
+        validateRetypePassword(value);
+    };
+    const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setEmail(value);
+        validateEmail(value);
+    };
 
-  const passwordChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setPassword(value)
-    validatePassword(value)
-  }
+    const passwordChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setPassword(value);
+        validatePassword(value);
+    };
 
-  const loginChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setLogin(value)
-    validateLogin(value)
-  }
+    const loginChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setLogin(value);
+        validateLogin(value);
+    };
 
-  return {
-    email,
-    emailChangeHandler,
-    emailError,
-    blocked,
-    password,
-    passwordChangeHandler,
-    passwordError,
-    login,
-    loginChangeHandler,
-    loginError,
-    retypePasswordChangeHandler,
-    retypePasswordError,
-    retypePassword
-  }
+    return {
+        email,
+        emailChangeHandler,
+        emailError,
+        blocked,
+        password,
+        passwordChangeHandler,
+        passwordError,
+        login,
+        loginChangeHandler,
+        loginError,
+        retypePasswordChangeHandler,
+        retypePasswordError,
+        retypePassword,
+    };
 }

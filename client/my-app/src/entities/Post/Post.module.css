@@ -26,6 +26,11 @@
     margin-top: 20px;
     font-weight: 600;
     font-size: 50px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 900px;
 }
 
 .date {
@@ -40,7 +45,7 @@
 
 
 .interfaceItemOne, .interfaceItemTwo {
-    margin-right: 20px;
+    margin-right: 10px;
     background-color: var(--buttons-color);
     color: var(--foreground);
     min-width: 70px;

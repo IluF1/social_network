@@ -8,11 +8,16 @@
     padding-left: 20px ;
     width: 100%;
     padding-right: 80px;
+    transition: 0.2s ease-in-out;
 }
 .customInput::placeholder {
     font-weight: 500 ;
     color: var(--foreground) ;
     font-size: 20px ;
+}
+.customInput:focus {
+    border: 1px solid rgb(255, 174, 0);
+    box-shadow: 5px 5px 40px rgb(255, 174, 0);
 }
 
 .error {

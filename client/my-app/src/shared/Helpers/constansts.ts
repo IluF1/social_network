@@ -12,7 +12,20 @@ export const instance = axios.create({
   },
 });
 
-export const formattedDate = (date: string) => 
-  new Date(date) < new Date(Date.now() - 86400000 * 7)
-    ? format(new Date(date), "dd MMMM yyyy", { locale: ru })
-    : formatDistanceToNow(new Date(date), { locale: ru, addSuffix: true });
+export const formattedDate = (date: string): string => {
+  const parsedDate = new Date(date);
+
+  // Check if the parsed date is valid
+  if (isNaN(parsedDate.getTime())) {
+    return 'Invalid date';
+  }
+
+  // If the date is older than 7 days
+  const oneWeekAgo = Date.now() - 86400000 * 7; // 7 days in milliseconds
+  if (parsedDate < new Date(oneWeekAgo)) {
+    return format(parsedDate, 'dd MMMM yyyy', { locale: ru });
+  }
+
+  // If the date is within the last 7 days
+  return formatDistanceToNow(parsedDate, { locale: ru, addSuffix: true });
+};

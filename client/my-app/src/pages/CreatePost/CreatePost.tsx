@@ -1,44 +1,53 @@
-import { BackButton } from "@/shared/ui/BackButton";
 import styles from "./CreatePost.module.css";
-import { useEffect, useState } from "react";
-import { CustomButton, CustomInput, instance, Title } from "@/shared";
-import { Switch } from "@/shared/shadcn/switch";
+import { useState } from "react";
+import { CustomButton, CustomInput, Title } from "@/shared";
 import { useAppSelector } from "@/shared/Helpers/Hooks/useAppSelector";
 import { useAppDispatch } from "@/shared/Helpers/Hooks/useAppDispatch";
-import { createPostApi } from "@/pages/Home/model/home.slice";
+import { File, ImageIcon } from "lucide-react";
+import { createPostApi } from "@/entities/Post/model/post.slice";
 
 export const CreatePost = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [post, setPost] = useState<boolean>(true);
   const user = useAppSelector((state) => state.user.user.login);
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: HTMLFormElement) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
-      createPostApi({
-        title: title,
-        content: content,
-        author: {
-          login: user,
-        },
-      })
-    );
-    setTitle("");
-    setContent("");
+    try {
+      dispatch(
+        createPostApi({
+          title: title,
+          content: content,
+          author: {
+            login: user,
+          },
+        })
+      );
+      setTitle("");
+      setContent("");
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
     <div className={styles.container}>
-      <Title tag="h1" children={"Создайте статью"} />
+      <Title
+        tag="h1"
+        children={post ? "Расскажите что у вас сегодня нового" : "Создайте статью"}
+      />
       <div className={styles.content}>
-        <form action="" className={styles.article_form}>
-          <CustomInput
-            children="Заголовок"
-            className={styles.title_article}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+        <form onSubmit={handleSubmit} className={styles.article_form}>
+          {!post && (
+            <CustomInput
+              children="Заголовок"
+              className={styles.title_article}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          )}
           <CustomInput
             children="Содержание"
             textarea
@@ -46,11 +55,25 @@ export const CreatePost = () => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <CustomButton
-            children="Создать"
-            className=" mt-5"
-            onClick={(e) => handleSubmit(e)}
-          />
+
+          <div className={styles.interfaceCreatePost}>
+            <CustomButton
+              type="submit"
+              children="Создать"
+              className={styles.create_button}
+            />
+            <CustomButton
+              style="outline"
+              children={post ? "Создать статью" : "Создать пост"}
+              onClick={() => setPost(!post)}
+            />
+            <CustomButton className={styles.uploadImage_button}>
+              <ImageIcon className={styles.uploadImage_icon} />
+            </CustomButton>
+            <CustomButton className={styles.uploadFile_button}>
+              <File className={styles.uploadFile_icon} />
+            </CustomButton>
+          </div>
         </form>
       </div>
     </div>

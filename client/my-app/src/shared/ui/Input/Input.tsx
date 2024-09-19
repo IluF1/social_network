@@ -26,7 +26,7 @@ export function CustomInput({
   error,
   required = false,
   textarea = false,
-  onClick
+  onClick,
 }: Props) {
   const [show, setShow] = useState<boolean>(false)
   const Tag = textarea ? 'textarea' : 'input'

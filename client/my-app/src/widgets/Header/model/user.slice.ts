@@ -38,7 +38,7 @@ export const getUserBySessionToken = createAsyncThunk<
   IGetUserBySessionToken
 >("user/getUserBySessionToken", async ({ session }, { rejectWithValue }) => {
   try {
-    const response = await instance.post("/user/session", {
+    const response = await instance.post("/user/getUserBySession", {
       sessionToken: session,
     });
     return response.data;
@@ -49,14 +49,23 @@ export const getUserBySessionToken = createAsyncThunk<
   }
 });
 
+export const logoutUser = createAsyncThunk(
+  "user/logout",
+  async (session: string) => {
+    try {
+      const response = await instance.post("/user/logout", { sessionToken: session });
+
+      return response.data
+    }catch(err) {
+      console.error(err)
+    }
+  }
+)
+
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getUserBySessionToken.pending, (state) => {
@@ -88,5 +97,4 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearError } = userSlice.actions;
 export default userSlice.reducer;
